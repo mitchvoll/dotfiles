@@ -34,9 +34,8 @@ Plugin 'plasticboy/vim-markdown'
 """"""""""""""""""""""""""
 " Custom settings
 """"""""""""""""""""""""""
-"set clipboard=unnamedplus
-
-nnoremap <leader>q :bp<cr>:bd #<cr>
+" close buffer with \q
+nnoremap <leader>q :bp<cr>:bd #<cr> 
 
 " toggle spelling use \s
 imap <Leader>s <C-o>:setlocal spell! spelllang=en_us<CR>
