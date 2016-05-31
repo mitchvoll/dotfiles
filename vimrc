@@ -19,7 +19,7 @@ Plugin 'vim-airline/vim-airline'
 Plugin 'mattn/emmet-vim'
 Plugin 'scrooloose/nerdTree' 
 Plugin 'gmarik/Vundle.vim'
-Plugin 'zenorocha/dracula-theme', {'rtp': 'vim/'}
+Plugin 'dracula/vim'
 Plugin 'octol/vim-cpp-enhanced-highlight'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'terryma/vim-multiple-cursors' 
