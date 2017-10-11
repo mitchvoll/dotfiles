@@ -30,6 +30,9 @@ Plugin 'plasticboy/vim-markdown'
 Bundle 'wakatime/vim-wakatime'
 Plugin 'tpope/vim-fugitive' 
 Bundle 'vim-ruby/vim-ruby'
+"Plugin 'pangloss/vim-javascript'
+"Bundle 'altercation/vim-colors-solarized'
+Plugin 'mileszs/ack.vim'
 
 
 "All of your Plugins must be added before the following line
@@ -85,7 +88,8 @@ set noswapfile "No swapfile
 
 color dracula
 "colorscheme dracula 
-"set background=dark
+"colorscheme solarized
+"set background=light
 "colorscheme material-theme
 syntax on  "Enables syntax highlighting for programming languages
 
@@ -112,6 +116,7 @@ set number  "Enables line numbering
 set smarttab  "Improves tabbing
 set shiftwidth=2  "Assists code formatting
 set expandtab
+set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:· "list bad spaces
 
 "Language specific indents
 autocmd Filetype html setlocal ts=2 sts=2 sw=2
