@@ -126,7 +126,7 @@ autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
 autocmd Filetype js setlocal ts=2 sts=2 sw=2
 
 "setlocal spell spelllang=en_us "Spellcheck" 
-set foldmethod=manual  "Lets you hide sections of code
+"set foldmethod=manual  "Lets you hide sections of code
 "--- The following adds a sweet menu, press F4 to use it.
 "source $VIMRUNTIME/menu.vim
 "set wildmenu
