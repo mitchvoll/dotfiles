@@ -13,6 +13,7 @@ plugins=(git)
 
 export PATH=$PATH:/opt/local/bin:~/Sync/Projects/shell_programs
 source $ZSH/oh-my-zsh.sh
+source .env-variables.sh
 
 # vim keybindings
 set -o vi
@@ -20,6 +21,8 @@ set -o vi
 alias ccat='pygmentize -g -O style=colorful,linenos=1'
 alias loadnvm="~/.nvm/nvm.sh"
 alias lsc="clear && ls"
+
+alias sshyuhu="cd ~/yuhu && ssh -i \"yuhuProd.pem\" $YUHU_PROD"
 
 export VISUAL=vim
 export EDITOR="$VISUAL"

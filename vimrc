@@ -33,6 +33,7 @@ Bundle 'vim-ruby/vim-ruby'
 "Plugin 'pangloss/vim-javascript'
 "Bundle 'altercation/vim-colors-solarized'
 Plugin 'mileszs/ack.vim'
+"Plugin 'scrooloose/syntastic'
 
 
 "All of your Plugins must be added before the following line
@@ -124,6 +125,18 @@ autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
 autocmd Filetype eruby setlocal ts=2 sts=2 sw=2
 autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
 autocmd Filetype js setlocal ts=2 sts=2 sw=2
+
+"Syntastic
+let g:syntastic_javascript_checkers = ['eslint']
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 "setlocal spell spelllang=en_us "Spellcheck" 
 "set foldmethod=manual  "Lets you hide sections of code
