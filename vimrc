@@ -4,40 +4,32 @@
 """""""""""""""""""""""""""""
 
 """""""""""""""""""""""""" 
-" Vundle settings
+" Plug settings
 """"""""""""""""""""""""""
-set nocompatible              " be iMproved, required
-filetype off                  " required
+set nocompatible
 
-" set the runtime path to include Vundle and initialize
- set rtp+=~/.vim/bundle/Vundle.vim
- call vundle#begin()
+call plug#begin('~/.vim/plugged')
 
-"let Vundle manage Vundle, required
-Plugin 'gmarik/Vundle.vim'
-Bundle 'edkolev/tmuxline.vim'
-Plugin 'vim-airline/vim-airline'
-Plugin 'mattn/emmet-vim'
-Plugin 'scrooloose/nerdTree' 
-"Plugin 'dracula/vim'
-Plugin 'crusoexia/vim-dracula'
-Plugin 'octol/vim-cpp-enhanced-highlight'
-Plugin 'Lokaltog/vim-easymotion'
-Plugin 'terryma/vim-multiple-cursors' 
-Plugin 'Auto-Pairs'
-Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown'
-Bundle 'wakatime/vim-wakatime'
-Plugin 'tpope/vim-fugitive' 
-Bundle 'vim-ruby/vim-ruby'
-"Plugin 'pangloss/vim-javascript'
-"Bundle 'altercation/vim-colors-solarized'
-Plugin 'mileszs/ack.vim'
+Plug 'edkolev/tmuxline.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'mattn/emmet-vim'
+Plug 'scrooloose/nerdTree'
+Plug 'crusoexia/vim-dracula'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'Lokaltog/vim-easymotion'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'jiangmiao/auto-pairs'
+Plug 'godlygeek/tabular'
+Plug 'plasticboy/vim-markdown'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-ruby/vim-ruby'
+Plug 'mileszs/ack.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'leafgarland/typescript-vim'
+Plug 'posva/vim-vue'
 
+call plug#end()
 
-"All of your Plugins must be added before the following line
- call vundle#end()            " required
- filetype plugin indent on    " required
 
 """"""""""""""""""""""""""
 " Custom settings
@@ -124,6 +116,19 @@ autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
 autocmd Filetype eruby setlocal ts=2 sts=2 sw=2
 autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
 autocmd Filetype js setlocal ts=2 sts=2 sw=2
+autocmd Filetype python setlocal ts=2 sts=2 sw=2
+
+"Syntastic
+let g:syntastic_javascript_checkers = ['eslint']
+
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 
 "setlocal spell spelllang=en_us "Spellcheck" 
 "set foldmethod=manual  "Lets you hide sections of code
