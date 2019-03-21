@@ -14,6 +14,11 @@ plugins=(git)
 export PATH=$PATH:/opt/local/bin:~/Sync/Projects/shell_programs:~/.node/bin
 export PATH=$PATH:/usr/local/Cellar/node/11.10.0/bin/
 source $ZSH/oh-my-zsh.sh
+source ~/.env-variables.sh
+
+# Pure Prompt: https://github.com/sindresorhus/pure#getting-started
+#autoload -U promptinit; promptinit
+#prompt pure
 
 # Pure Prompt: https://github.com/sindresorhus/pure#getting-started
 #autoload -U promptinit; promptinit
