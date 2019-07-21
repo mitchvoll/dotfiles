@@ -24,9 +24,14 @@ Plug 'plasticboy/vim-markdown'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-ruby/vim-ruby'
 Plug 'mileszs/ack.vim'
-Plug 'ctrlpvim/ctrlp.vim'
+"Plug 'ctrlpvim/ctrlp.vim'
 Plug 'leafgarland/typescript-vim'
 Plug 'posva/vim-vue'
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-rails'
+Plug 'romainl/vim-qf'
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
 
 call plug#end()
 
@@ -34,16 +39,35 @@ call plug#end()
 """"""""""""""""""""""""""
 " Custom settings
 """"""""""""""""""""""""""
+" fzf searching settings
+nmap <C-p> :GFiles<CR>
+nmap <C-P> :Files<CR>
+
+nmap <C-_> :Ag<CR>
+nmap <silent> <C-f> :Ag <C-R><C-W><CR>
+
+let g:fzf_layout = { 'down': '~20%' }
+
+" Map <ctrl-_> to trigger global search
+"nmap <C-_> :Ggr -i<space>
+
+" vim-fugitive settings
+"nmap <C-F> :Ggr <cword><CR> | cw
+"autocmd QuickFixCmdPost *grep* cwindow
+
 " set regex to old engine for better ruby performance
 set re=1
 
 " ctrlp
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-let g:ctrlp_max_files = 25000
-let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
+"set runtimepath^=~/.vim/bundle/ctrlp.vim
+"let g:ctrlp_max_files = 25000
+"let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 
 " close buffer with \q
-nnoremap <leader>q :bp<cr>:bd #<cr> 
+nmap <leader>q :bp<cr>:bd #<cr> 
+
+" toggle git gutter with \g
+nmap <leader>g :GitGutterToggle<cr>
 
 " toggle spelling use \s
 imap <Leader>s <C-o>:setlocal spell! spelllang=en_us<CR>
@@ -73,15 +97,7 @@ map <C-t> :NERDTreeToggle<CR>
 
 " General settings
 """""""""""""""""""""""""""
-set timeoutlen=1000 "Improve speed
-set ttimeoutlen=0 "Improve speed
-
-set noswapfile "No swapfile
-
 color dracula
-"colorscheme dracula 
-"colorscheme solarized
-"set background=light
 "colorscheme material-theme
 syntax on  "Enables syntax highlighting for programming languages
 
@@ -92,9 +108,12 @@ let g:tmuxline_powerline_separators = 0
 let g:airline_powerline_fonts = 1
 
 " Tab and shift tab cycle through buffers
-nnoremap  <silent>   <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
-nnoremap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
+nmap  <silent>   <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
+nmap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
 
+set timeoutlen=1000 "Improve speed
+set ttimeoutlen=0 "Improve speed
+set noswapfile "No swapfile
 set t_Co=256
 set t_ut= "Fix issue with background of lines being different colour than screen background
 set clipboard=unnamed "Copy paste across vim sessions"
@@ -109,6 +128,10 @@ set smarttab  "Improves tabbing
 set shiftwidth=2  "Assists code formatting
 set expandtab
 set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:· "list bad spaces
+"set ignorecase "Case insensitive seaerch
+"set incsearch "Search characters when typing
+"set hlsearch "Highlight while searching
+"set foldmethod=manual  "Lets you hide sections of code
 
 "Language specific indents
 autocmd Filetype html setlocal ts=2 sts=2 sw=2
@@ -118,32 +141,6 @@ autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
 autocmd Filetype js setlocal ts=2 sts=2 sw=2
 autocmd Filetype python setlocal ts=2 sts=2 sw=2
 
-"Syntastic
-let g:syntastic_javascript_checkers = ['eslint']
-
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-"Syntastic
-let g:syntastic_javascript_checkers = ['eslint']
-
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-"setlocal spell spelllang=en_us "Spellcheck" 
-"set foldmethod=manual  "Lets you hide sections of code
 "--- The following adds a sweet menu, press F4 to use it.
 "source $VIMRUNTIME/menu.vim
 "set wildmenu
