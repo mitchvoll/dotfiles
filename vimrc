@@ -3,7 +3,12 @@
 " Sept 29, 2015
 """""""""""""""""""""""""""""
 
-"""""""""""""""""""""""""" 
+" Dependencies
+" vim-plug https://github.com/junegunn/vim-plug
+" fzf https://github.com/junegunn/fzf
+" ag https://github.com/ggreer/the_silver_searcher
+
+""""""""""""""""""""""""""
 " Plug settings
 """"""""""""""""""""""""""
 set nocompatible
@@ -22,6 +27,7 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 Plug 'vim-ruby/vim-ruby'
 Plug 'mileszs/ack.vim'
 "Plug 'ctrlpvim/ctrlp.vim'
@@ -38,22 +44,17 @@ call plug#end()
 
 """"""""""""""""""""""""""
 " Custom settings
-""""""""""""""""""""""""""
+"bJ"""""""""""""""""""""""""
 " fzf searching settings
 nmap <C-p> :GFiles<CR>
-nmap <C-P> :Files<CR>
+nmap <C-o> :Buffers<CR>
 
-nmap <C-_> :Ag<CR>
+nmap <C-_> :Ag <CR>
 nmap <silent> <C-f> :Ag <C-R><C-W><CR>
 
+nmap <C-h> :History
+
 let g:fzf_layout = { 'down': '~20%' }
-
-" Map <ctrl-_> to trigger global search
-"nmap <C-_> :Ggr -i<space>
-
-" vim-fugitive settings
-"nmap <C-F> :Ggr <cword><CR> | cw
-"autocmd QuickFixCmdPost *grep* cwindow
 
 " set regex to old engine for better ruby performance
 set re=1
@@ -121,17 +122,22 @@ set mouse=a  "Allows you to click around the text editor with your mouse to move
 set showmatch "Highlights matching brackets in programming languages
 set autoindent  "If you're indented, new lines will also be indented
 set cindent  "Automatically indents lines after opening a bracket in programming languages
-set backspace=2  "This makes the backspace key function like it does in other programs.
-set tabstop=2  "How much space Vim gives to a tab
 set number  "Enables line numbering
 set smarttab  "Improves tabbing
 set shiftwidth=2  "Assists code formatting
 set expandtab
+set backspace=2  "This makes the backspace key function like it does in other programs.
+set tabstop=2  "How much space Vim gives to a tab
 set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:· "list bad spaces
+set hidden "Maintain buffer data to allow undo after switching buffers
 "set ignorecase "Case insensitive seaerch
+set smartcase "Search case sensitive and fallback on insensitive"
 "set incsearch "Search characters when typing
-"set hlsearch "Highlight while searching
+set hlsearch "Highlight while searching
 "set foldmethod=manual  "Lets you hide sections of code
+"
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
 
 "Language specific indents
 autocmd Filetype html setlocal ts=2 sts=2 sw=2

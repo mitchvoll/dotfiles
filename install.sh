@@ -4,11 +4,11 @@ ln .vim ~/.vim
 ln zshrc ~/.zshrc
 ln tmux.conf ~/.tmux.conf
 
-echo "Installing homebrew"
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+#echo "Installing homebrew"
+#/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
 echo "Installing packages from brewleaves"
 ./brewstaller.sh brewleaves
 
-echo "Fetching dracula theme for iterm"
-git clone https://github.com/dracula/iterm.git
+#echo "Fetching dracula theme for iterm"
+#git clone https://github.com/dracula/iterm.git
