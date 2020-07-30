@@ -31,13 +31,13 @@ Plug 'tpope/vim-rhubarb'
 Plug 'vim-ruby/vim-ruby'
 Plug 'mileszs/ack.vim'
 "Plug 'ctrlpvim/ctrlp.vim'
-Plug 'leafgarland/typescript-vim'
 Plug 'posva/vim-vue'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-rails'
 Plug 'romainl/vim-qf'
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
+Plug 'jparise/vim-graphql'
 
 call plug#end()
 
@@ -55,6 +55,7 @@ nmap <silent> <C-f> :Ag <C-R><C-W><CR>
 nmap <C-h> :History
 
 let g:fzf_layout = { 'down': '~20%' }
+let g:fzf_preview_window = 'right:40%'
 
 " set regex to old engine for better ruby performance
 set re=1
@@ -146,6 +147,10 @@ autocmd Filetype eruby setlocal ts=2 sts=2 sw=2
 autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
 autocmd Filetype js setlocal ts=2 sts=2 sw=2
 autocmd Filetype python setlocal ts=2 sts=2 sw=2
+
+"Language specific style
+au BufReadPost *.tsx set syntax=javascript
+au BufReadPost *.ts set syntax=javascript
 
 "--- The following adds a sweet menu, press F4 to use it.
 "source $VIMRUNTIME/menu.vim
