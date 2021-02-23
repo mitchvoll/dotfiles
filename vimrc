@@ -30,7 +30,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'vim-ruby/vim-ruby'
 Plug 'mileszs/ack.vim'
-"Plug 'ctrlpvim/ctrlp.vim'
 Plug 'posva/vim-vue'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-rails'
@@ -44,7 +43,7 @@ call plug#end()
 
 """"""""""""""""""""""""""
 " Custom settings
-"bJ"""""""""""""""""""""""""
+""""""""""""""""""""""""""
 " fzf searching settings
 nmap <C-p> :GFiles<CR>
 nmap <C-o> :Buffers<CR>
@@ -131,12 +130,8 @@ set backspace=2  "This makes the backspace key function like it does in other pr
 set tabstop=2  "How much space Vim gives to a tab
 set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:· "list bad spaces
 set hidden "Maintain buffer data to allow undo after switching buffers
-"set ignorecase "Case insensitive seaerch
 set smartcase "Search case sensitive and fallback on insensitive"
-"set incsearch "Search characters when typing
 set hlsearch "Highlight while searching
-"set foldmethod=manual  "Lets you hide sections of code
-"
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
 
