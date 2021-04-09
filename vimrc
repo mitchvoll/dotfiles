@@ -7,6 +7,7 @@
 " vim-plug https://github.com/junegunn/vim-plug
 " fzf https://github.com/junegunn/fzf
 " ag https://github.com/ggreer/the_silver_searcher
+" sourcecode pro font
 
 """"""""""""""""""""""""""
 " Plug settings
@@ -65,7 +66,7 @@ set re=1
 "let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 
 " close buffer with \q
-nmap <leader>q :bp<cr>:bd #<cr> 
+nmap <leader>q :bp<cr>:bd #<cr>
 
 " toggle git gutter with \g
 nmap <leader>g :GitGutterToggle<cr>
@@ -77,7 +78,7 @@ nmap <Leader>s :setlocal spell! spelllang=en_us<CR>
 " start relative numbering
 function! NumberToggle()
   if(&relativenumber == 1)
-    set nornu 
+    set nornu
   else
     set relativenumber
   endif

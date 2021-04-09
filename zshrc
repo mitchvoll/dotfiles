@@ -25,7 +25,7 @@ alias lsc="clear && ls"
 alias gb="git branch | cat"
 alias safevim="vim -u NONE"
 alias vimzsh="vim ~/.zshrc"
-alias vimtmux="vim ~/.zshrc"
+alias vimtmux="vim ~/.tmux.conf"
 alias vimvim="vim ~/.vimrc"
 alias reload="source ~/.zshrc"
 
@@ -50,3 +50,4 @@ export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} || hig
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/mc mc
+export GPG_TTY=`tty`
