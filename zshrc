@@ -27,7 +27,10 @@ alias safevim="vim -u NONE"
 alias vimzsh="vim ~/.zshrc"
 alias vimtmux="vim ~/.tmux.conf"
 alias vimvim="vim ~/.vimrc"
+alias nvimnvim="nvim ~/.vimrc"
 alias reload="source ~/.zshrc"
+
+alias vim="nvim"
 
 export VISUAL=vim
 export EDITOR="$VISUAL"
@@ -51,3 +54,10 @@ export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} || hig
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/mc mc
 export GPG_TTY=`tty`
+
+[ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
+if [ -e /Users/mitchvollebregt/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/mitchvollebregt/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
+
+[[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
+
+[[ -x /usr/local/bin/brew ]] && eval $(/usr/local/bin/brew shellenv)
