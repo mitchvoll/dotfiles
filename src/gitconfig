@@ -1,0 +1,8 @@
+[diff]
+	algorithm = patience
+	noprefix = true
+[protocol]
+	version = 2
+[user]
+	name = Mitch Vollebregt
+	email = mitch.vollebregt@shopify.com
