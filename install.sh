@@ -55,6 +55,9 @@ nvim --headless +PlugInstall +qall
 echo --- neovim configured
 echo
 
+# Oh my zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
 if [[ $SPIN ]]; then
   git config --global user.email "mitch.vollebregt@shopify.com"
   git config --global user.name "Mitch Vollebregt"
