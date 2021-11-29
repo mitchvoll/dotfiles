@@ -58,6 +58,10 @@ echo
 # Oh my zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
+# Silver Searcher
+install silversearcher-ag
+
+
 if [[ $SPIN ]]; then
   git config --global user.email "mitch.vollebregt@shopify.com"
   git config --global user.name "Mitch Vollebregt"
