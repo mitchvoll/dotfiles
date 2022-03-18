@@ -59,8 +59,8 @@ nmap <C-_> :Ag <CR>
 nmap <silent> <C-f> :Ag <C-R><C-W><CR>
 
 nmap <C-h> :History <CR>
-nmap <C-h> :BCommits <CR>
-nmap <C-R> :Dispatch
+nmap <C-g> :BCommits <CR>
+nmap <C-D> :Dispatch
 
 let g:fzf_layout = { 'down': '~20%' }
 let g:fzf_preview_window = 'right:40%'
