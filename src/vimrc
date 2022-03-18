@@ -58,7 +58,9 @@ nmap <C-o> :Buffers<CR>
 nmap <C-_> :Ag <CR>
 nmap <silent> <C-f> :Ag <C-R><C-W><CR>
 
-nmap <C-h> :History
+nmap <C-h> :History <CR>
+nmap <C-h> :BCommits <CR>
+nmap <C-R> :Dispatch
 
 let g:fzf_layout = { 'down': '~20%' }
 let g:fzf_preview_window = 'right:40%'
@@ -182,7 +184,7 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap('n', '<leader><leader>', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-
+  buf_set_keymap("n", "<leader>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 end
 
 -- Shopify's rubocop lsp
@@ -295,7 +297,6 @@ nmap <silent> <leader>tg :TestVisit<CR>
 let test#strategy = "dispatch"
 
 " Fzf
-
 " An action can be a reference to a function that processes selected lines
 function! s:build_quickfix_list(lines)
   call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
