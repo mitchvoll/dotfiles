@@ -2,28 +2,6 @@
 
 cd "${0%/*}"
 
-# Link dotfiles
-#
-echo
-echo Linking dotfiles
-echo ----------------
-echo
-
-echo "Creating links to vim.rc, tmux.conf, and .zshrc files"
-
-for dotfile in src/**/*; do
-	destination=~/.${dotfile:4} # Remove src/ and prepend ~/.
-
-	if [ -d "$dotfile" ] && [ ! -d "$destination" ]; then
-		mkdir $destination
-	fi
-
-	if [ -f "$dotfile" ]; then
-		echo "--- $dotfile -> $destination"
-		ln -sf ${dotfile:P} "$destination"
-	fi
-done
-
 # Install dependencies
 #
 echo
@@ -63,6 +41,28 @@ install silversearcher-ag
 
 #fzf
 install fzf
+
+# Link dotfiles
+#
+echo
+echo Linking dotfiles
+echo ----------------
+echo
+
+echo "Creating links to vim.rc, tmux.conf, and .zshrc files"
+
+for dotfile in src/**/*; do
+	destination=~/.${dotfile:4} # Remove src/ and prepend ~/.
+
+	if [ -d "$dotfile" ] && [ ! -d "$destination" ]; then
+		mkdir $destination
+	fi
+
+	if [ -f "$dotfile" ]; then
+		echo "--- $dotfile -> $destination"
+		ln -sf ${dotfile:P} "$destination"
+	fi
+done
 
 if [[ $SPIN ]]; then
   git config --global user.email "mitch.vollebregt@shopify.com"
