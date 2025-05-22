@@ -47,7 +47,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # CTRL-T file preview
-export FZF_DEFAULT_COMMAND='ag -g ""'
+export FZF_DEFAULT_COMMAND="rg --files --glob '!*.rbi'"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS="--preview '(bat --style=numbers --color=always {} || highlight -O ansi -l {} || coderay {} || rougify {} || cat {}) 2> /dev/null | head -500'"
 
@@ -58,6 +58,29 @@ export GPG_TTY=`tty`
 [ -f /opt/dev/dev.sh ] && source /opt/dev/dev.sh
 if [ -e /Users/mitchvollebregt/.nix-profile/etc/profile.d/nix.sh ]; then . /Users/mitchvollebregt/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 
-[[ -f /opt/dev/sh/chruby/chruby.sh ]] && type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; }
+[[ -f /opt/dev/sh/chruby/chruby.sh ]] && { type chruby >/dev/null 2>&1 || chruby () { source /opt/dev/sh/chruby/chruby.sh; chruby "$@"; } }
 
 [[ -x /usr/local/bin/brew ]] && eval $(/usr/local/bin/brew shellenv)
+eval $(/opt/homebrew/bin/brew shellenv)
+
+
+[[ -x /opt/homebrew/bin/brew ]] && eval $(/opt/homebrew/bin/brew shellenv)
+
+start_nvim() {
+    BASE_SOCKET="/tmp/nvim"
+
+    if [ -e "$BASE_SOCKET" ]; then
+        # Generate a unique socket using a timestamp
+        SOCKET="$BASE_SOCKET-$(date +%s)"
+    else
+        SOCKET="$BASE_SOCKET"
+    fi
+
+    # Save the socket path to a temporary file
+    echo "$SOCKET" > /tmp/nvim_socket_path
+
+    # Start Neovim with the unique socket
+    nvim --listen "$SOCKET"
+}
+alias aivim='start_nvim'
+alias ai="dev claude -- \"my vim/neovim is listening at the socket \$(cat /tmp/nvim_socket_path), when I ask you to open or find a file, I mean I want it open in that /tmp/nvim session. you can use :vspl or :spl to open it in a split window. I prefer :vspl. after you make each change to a file run :e to refresh DO NOT GIVE ME HIGH LEVEL SHIT, IF I ASK FOR FIX OR EXPLANATION, I WANT ACTUAL CODE OR EXPLANATION! I DON'T WANT 'Here\'s how you can blablabla' - Be casual unless otherwise specified - Be terse and concise - Suggest solutions that I didn't think about - anticipate my needs - Treat me as an expert - Be accurate and thorough - Give the answer immediately. Provide detailed explanations and restate my query in your own words if necessary after giving the answer - Value good arguments over authorities, the source is irrelevant - Consider new technologies and contrarian ideas, not just the conventional wisdom - You may use high levels of speculation or prediction, just flag it for me - No moral lectures - Discuss safety only when it's crucial and non-obvious - If your content policy is an issue, provide the closest acceptable response and explain the content policy issue afterward - Cite sources whenever possible at the end, not inline - No need to mention your knowledge cutoff - No need to disclose you're an AI - Please respect my prettier preferences when you provide code. - Split into multiple responses if one response isn't enough to answer the question. - Focus on readability over being performant. - Fully implement all requested functionality\""

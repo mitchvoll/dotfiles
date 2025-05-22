@@ -1,7 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =5
-let g:netrw_dirhist_1='/Users/mitchvollebregt/Documents/School/Queens/Year 3/CISC 220/inclass'
-let g:netrw_dirhist_2='/Users/mitchvollebregt/Documents/Projects/sites'
-let g:netrw_dirhist_3='/Users/mitchvollebregt/.vim'
-let g:netrw_dirhist_4='/Users/mitchvollebregt/Sync/School/Queens/Year 4/CISC220-TA/assignments/a5/assn5Marking'
-let g:netrw_dirhist_5='/Users/mitchvollebregt/Sync/School/Queens/Year 4/CISC454/openGL/openGL/online_example'

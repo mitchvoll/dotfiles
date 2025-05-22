@@ -21,29 +21,38 @@ Plug 'edkolev/tmuxline.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'mattn/emmet-vim'
 Plug 'scrooloose/nerdTree'
-Plug 'crusoexia/vim-dracula'
-Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'Lokaltog/vim-easymotion'
+Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'terryma/vim-multiple-cursors'
 Plug 'jiangmiao/auto-pairs'
-Plug 'godlygeek/tabular'
 Plug 'plasticboy/vim-markdown'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
-Plug 'vim-ruby/vim-ruby'
+"Plug 'vim-ruby/vim-ruby'
 Plug 'mileszs/ack.vim'
-Plug 'posva/vim-vue'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-rails'
 Plug 'romainl/vim-qf'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'jparise/vim-graphql'
+
 Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/nvim-compe'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+
+" For vsnip users.
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
+
 Plug 'janko/vim-test'
 Plug 'ojroques/nvim-lspfuzzy'
 Plug 'tpope/vim-dispatch'
+
+Plug 'Shopify/shadowenv.vim'
+
 
 call plug#end()
 
@@ -52,24 +61,18 @@ call plug#end()
 " Custom settings
 """"""""""""""""""""""""""
 " fzf searching settings
-nmap <C-p> :GFiles -- . ':!:*.rbi'<CR>
+nmap <C-p> :Files<CR>
+
 nmap <C-o> :Buffers<CR>
 
-nmap <C-_> :Ag <CR>
-nmap <silent> <C-f> :Ag <C-R><C-W><CR>
+nmap <C-_> :Rg <CR>
+nmap <silent> <C-f> :Rg <C-R><C-W><CR>
 
 nmap <C-h> :History
 
 let g:fzf_layout = { 'down': '~20%' }
 let g:fzf_preview_window = 'right:40%'
 
-" set regex to old engine for better ruby performance
-set re=1
-
-" ctrlp
-"set runtimepath^=~/.vim/bundle/ctrlp.vim
-"let g:ctrlp_max_files = 25000
-"let g:ctrlp_custom_ignore = 'node_modules\|DS_Store\|git'
 
 " close buffer with \q
 nmap <leader>q :bp<cr>:bd #<cr>
@@ -98,16 +101,11 @@ nnoremap <C-b> :call NumberToggle()<cr>
 
 " nerdtree settings
 """"""""""""""""""""""""""
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 map <C-t> :NERDTreeToggle<CR>
-"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
 
 " General settings
 """""""""""""""""""""""""""
 color dracula
-"colorscheme material-theme
 syntax on  "Enables syntax highlighting for programming languages
 
 let g:airline#extensions#tabline#enabled = 1
@@ -120,40 +118,26 @@ let g:airline_powerline_fonts = 1
 nmap  <silent>   <tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bnext<CR>
 nmap  <silent> <s-tab>  :if &modifiable && !&readonly && &modified <CR> :write<CR> :endif<CR>:bprevious<CR>
 
-set timeoutlen=1000 "Improve speed
-set ttimeoutlen=0 "Improve speed
-set noswapfile "No swapfile
+set noswapfile
 set t_Co=256
 set t_ut= "Fix issue with background of lines being different colour than screen background
-set clipboard=unnamed "Copy paste across vim sessions"
-set mouse=a  "Allows you to click around the text editor with your mouse to move the cursor
-set showmatch "Highlights matching brackets in programming languages
-set autoindent  "If you're indented, new lines will also be indented
-set cindent  "Automatically indents lines after opening a bracket in programming languages
-set number  "Enables line numbering
-set smarttab  "Improves tabbing
-set shiftwidth=2  "Assists code formatting
+set clipboard=unnamed
+set mouse=a
+set showmatch
+set autoindent
+set cindent  "Automatically indents lines after opening a bracket
+set number
+set smarttab
+set shiftwidth=2
 set expandtab
-set backspace=2  "This makes the backspace key function like it does in other programs.
-set tabstop=2  "How much space Vim gives to a tab
+set backspace=2
+set tabstop=2
 set listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:· "list bad spaces
 set hidden "Maintain buffer data to allow undo after switching buffers
 set smartcase "Search case sensitive and fallback on insensitive"
 set hlsearch "Highlight while searching
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
-
-"Language specific indents
-autocmd Filetype html setlocal ts=2 sts=2 sw=2
-autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
-autocmd Filetype eruby setlocal ts=2 sts=2 sw=2
-autocmd Filetype ruby setlocal ts=2 sts=2 sw=2
-autocmd Filetype js setlocal ts=2 sts=2 sw=2
-autocmd Filetype python setlocal ts=4 sts=4 sw=4
-
-"Language specific style
-au BufReadPost *.tsx set syntax=javascript
-au BufReadPost *.ts set syntax=javascript
 
 " Fade out sorbet signatures
 augroup format_ruby
@@ -162,9 +146,76 @@ augroup format_ruby
   autocmd Syntax ruby hi def link sorbetSig Comment
 augroup END
 
-" LSP
+" Vim Test
+nmap <silent> <leader>tn :TestNearest<CR>
+nmap <silent> <leader>tf :TestFile<CR>
+nmap <silent> <leader>ts :TestSuite<CR>
+nmap <silent> <leader>tl :TestLast<CR>
+nmap <silent> <leader>tg :TestVisit<CR>
+let test#strategy = "dispatch"
+let dispatch_tmux_pipe_pane = 1
+
+" Fzf
+" An action can be a reference to a function that processes selected lines
+function! s:build_quickfix_list(lines)
+  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+  copen
+  cc
+endfunction
+
+let g:fzf_action = {
+  \ 'ctrl-q': function('s:build_quickfix_list'),
+  \ 'ctrl-t': 'tab split',
+  \ 'ctrl-x': 'split',
+  \ 'ctrl-v': 'vsplit' }
+
+
 lua << EOF
-local nvim_lsp = require('lspconfig')
+
+--
+-- CMP
+--
+
+local cmp = require 'cmp'
+
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body)
+    end,
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.abort(),
+    ['<Tab>'] = cmp.mapping(cmp.mapping.select_next_item(), { 'i', 's' }),
+    ['<S-Tab>'] = cmp.mapping(cmp.mapping.select_prev_item(), { 'i', 's' }),
+    ['<CR>'] = cmp.mapping.confirm({ select = false }),
+  }),
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'vsnip' }, -- For vsnip users.
+  }, {
+    { name = 'buffer' },
+  })
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
+  }),
+  matching = { disallow_symbol_nonprefix_matching = false }
+})
+
+
+--
+-- LSP
+--
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
@@ -179,38 +230,34 @@ local on_attach = function(client, bufnr)
   local opts = { noremap=true, silent=true }
 
   -- See `:help vim.lsp.*` for documentation on any of the below functions
+  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
   buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
   buf_set_keymap('n', '<leader><leader>', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-
 end
 
--- Shopify's rubocop lsp
-local configs = require 'lspconfig/configs'
-local util = require 'lspconfig/util'
-configs.rubocop = {
-  name = "Rubocop",
-  default_config = {
-    root_dir = util.root_pattern('Gemfile', '.git'),
-    cmd = { "bundle", "exec", "rubocop-lsp" },
-    filetypes = { "ruby" },
-  },
-}
+local lspconfig = require 'lspconfig'
 
--- Use a loop to conveniently call 'setup' on multiple servers and
--- map buffer local keybindings when the language server attaches
-local servers = { "sorbet", "rust_analyzer", "tsserver", "rubocop" }
-for _, lsp in ipairs(servers) do
-  nvim_lsp[lsp].setup {
-    on_attach = on_attach,
-    flags = {
-      debounce_text_changes = 150,
-    }
-  }
-end
-EOF
+lspconfig.ruby_lsp.setup({ on_attach = on_attach })
+lspconfig.sorbet.setup({ on_attach = on_attach })
+lspconfig.ts_ls.setup({ on_attach = on_attach })
 
-lua <<EOF
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local bufnr = args.buf
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client.name == "ruby_lsp" then
+      client.server_capabilities.definitionProvider = nil
+      client.server_capabilities.semanticTokensProvider = nil
+    end
+  end,
+})
+
+
+--
+-- lspfuzzy
+--
+
 require('lspfuzzy').setup {
   methods = 'all',         -- either 'all' or a list of LSP methods (see below)
   jump_one = true,         -- jump immediately if there is only one location
@@ -226,85 +273,8 @@ require('lspfuzzy').setup {
   fzf_modifier = ':~:.',   -- format FZF entries, see |filename-modifiers|
   fzf_trim = true,         -- trim FZF entries
 }
+
 EOF
 
-
-" Compe
-set completeopt=menuone,noselect
-
-lua <<EOF
-require'compe'.setup {
-  source = {
-    path = true;
-    buffer = true;
-    calc = true;
-    nvim_lsp = true;
-    nvim_lua = true;
-    vsnip = true;
-    ultisnips = true;
-    luasnip = true;
-  };
-}
-
-local t = function(str)
-  return vim.api.nvim_replace_termcodes(str, true, true, true)
-end
-
-local check_back_space = function()
-    local col = vim.fn.col('.') - 1
-    return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
-end
-
--- Use (s-)tab to:
---- move to prev/next item in completion menuone
---- jump to prev/next snippet's placeholder
-_G.tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-n>"
-  elseif vim.fn['vsnip#available'](1) == 1 then
-    return t "<Plug>(vsnip-expand-or-jump)"
-  elseif check_back_space() then
-    return t "<Tab>"
-  else
-    return vim.fn['compe#complete']()
-  end
-end
-_G.s_tab_complete = function()
-  if vim.fn.pumvisible() == 1 then
-    return t "<C-p>"
-  elseif vim.fn['vsnip#jumpable'](-1) == 1 then
-    return t "<Plug>(vsnip-jump-prev)"
-  else
-    -- If <S-Tab> is not working in your terminal, change it to <C-h>
-    return t "<S-Tab>"
-  end
-end
-
-vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
-EOF
-
-" Vim Test
-nmap <silent> <leader>tn :TestNearest<CR>
-nmap <silent> <leader>tf :TestFile<CR>
-nmap <silent> <leader>ts :TestSuite<CR>
-nmap <silent> <leader>tl :TestLast<CR>
-nmap <silent> <leader>tg :TestVisit<CR>
-let test#strategy = "dispatch"
-
-" Fzf
-
-" An action can be a reference to a function that processes selected lines
-function! s:build_quickfix_list(lines)
-  call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
-  copen
-  cc
-endfunction
-
-let g:fzf_action = {
-  \ 'ctrl-q': function('s:build_quickfix_list'),
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-x': 'split',
-  \ 'ctrl-v': 'vsplit' }
+set timeoutlen=250
+set ttimeoutlen=100

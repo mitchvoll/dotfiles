@@ -2,6 +2,9 @@
 
 cd "${0%/*}"
 
+# Oh my zsh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
 # Link dotfiles
 #
 echo
@@ -55,12 +58,8 @@ nvim --headless +PlugInstall +qall
 echo --- neovim configured
 echo
 
-# Oh my zsh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
 # Silver Searcher
 install silversearcher-ag
-
 
 if [[ $SPIN ]]; then
   git config --global user.email "mitch.vollebregt@shopify.com"
