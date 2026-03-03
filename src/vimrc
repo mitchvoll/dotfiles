@@ -34,6 +34,7 @@ Plug 'tpope/vim-rails'
 Plug 'romainl/vim-qf'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'ibhagwan/fzf-lua'
 Plug 'jparise/vim-graphql'
 
 Plug 'neovim/nvim-lspconfig'
@@ -101,7 +102,7 @@ nnoremap <C-b> :call NumberToggle()<cr>
 
 " nerdtree settings
 """"""""""""""""""""""""""
-map <C-t> :NERDTreeToggle<CR>
+map <C-t> :NERDTreeFind<CR>
 
 " General settings
 """""""""""""""""""""""""""
@@ -214,39 +215,35 @@ cmp.setup.cmdline(':', {
 
 
 --
--- LSP
+-- LSP (native vim.lsp.config for nvim 0.11+)
 --
 
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
-local on_attach = function(client, bufnr)
-  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
-  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+-- Configure LSP servers using the native API
+vim.lsp.config('ruby_lsp', {})
+vim.lsp.config('sorbet', {})
+vim.lsp.config('ts_ls', {})
 
-  --Enable completion triggered by <c-x><c-o>
-  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+-- Enable all configured servers
+vim.lsp.enable({ 'ruby_lsp', 'sorbet', 'ts_ls' })
 
-  -- Mappings.
-  local opts = { noremap=true, silent=true }
-
-  -- See `:help vim.lsp.*` for documentation on any of the below functions
-  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
-  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
-  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<leader><leader>', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
-end
-
-local lspconfig = require 'lspconfig'
-
-lspconfig.ruby_lsp.setup({ on_attach = on_attach })
-lspconfig.sorbet.setup({ on_attach = on_attach })
-lspconfig.ts_ls.setup({ on_attach = on_attach })
-
+-- Set up keymaps and options when an LSP attaches
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local bufnr = args.buf
     local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if client.name == "ruby_lsp" then
+
+    -- Enable completion triggered by <c-x><c-o>
+    vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+    -- Keymaps
+    local opts = { noremap = true, silent = true, buffer = bufnr }
+    vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+    vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+    vim.keymap.set('n', '<leader><leader>', vim.lsp.buf.hover, opts)
+
+    -- Disable ruby_lsp definition/semanticTokens (let sorbet handle these)
+    if client and client.name == "ruby_lsp" then
       client.server_capabilities.definitionProvider = nil
       client.server_capabilities.semanticTokensProvider = nil
     end
